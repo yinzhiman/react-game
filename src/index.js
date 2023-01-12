@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import classnames from 'classnames';
 import './index.css';
 
 function Square(props) {
@@ -81,7 +82,7 @@ class Game extends React.Component {
         'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button className={classnames({ 'font-bold': this.state.stepNumber===move})} onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
     });
