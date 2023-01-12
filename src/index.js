@@ -56,7 +56,9 @@ class Game extends React.Component {
         point:''
       }],
       xIsNext:true,
-      stepNumber: 0
+      stepNumber: 0,
+      sort:true,
+      domHistoryList:[]
     }
   }
   handleClick(i){
@@ -90,11 +92,10 @@ class Game extends React.Component {
         'Go to move #' + move + step.point:
         'Go to game start';
       return (
-        <li key={move}>
-          <button className={classnames({ 'font-bold': this.state.stepNumber===move})} onClick={() => this.jumpTo(move)}>{desc}</button>
-        </li>
-      );
-    });
+      <li key={move}>
+        <button className={classnames({ 'font-bold': this.state.stepNumber===move})} onClick={() => this.jumpTo(move)}>{desc}</button>
+      </li>)
+    })
 
     let status;
     if (winner) {
@@ -109,7 +110,8 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves }</ol>
+          sort: <button onClick={() => this.setState({ sort:!this.state.sort })}>{this.state.sort?'asc':'desc'}</button>
+          <ol>{this.state.sort?moves:moves.reverse()}</ol>
         </div>
       </div>
     );
