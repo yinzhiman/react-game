@@ -66,15 +66,14 @@ class Game extends React.Component {
       winnerList:null
     }
   }
-  handleClick(i){
+  async handleClick(i){
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1]
     const squares = current.squares.slice()
-    if ((calculateWinner(squares) && calculateWinner(squares).winner) || squares[i]) { 
-      return;
-    }
+    // 点击同一位置，不赋值
+    if (squares[i]) return ;
     squares[i]=this.state.xIsNext? 'X':'O'
-    this.setState({
+    await this.setState({
       history:history.concat([{
         squares:squares,
         point:`行${Math.floor(i/3)+1},列${Math.floor(i%3)+1}`
@@ -82,6 +81,9 @@ class Game extends React.Component {
       winnerList:calculateWinner(squares) && calculateWinner(squares).winnerList,
       stepNumber: history.length,
       xIsNext:!this.state.xIsNext})
+      // 已经获胜
+    if(calculateWinner(squares)) return alert(calculateWinner(squares).winner+'获胜')
+    if(!squares.filter(item=>item===null).length) return alert('平局')
   }
   jumpTo(step) {
     this.setState({
